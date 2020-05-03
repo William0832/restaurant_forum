@@ -66,4 +66,9 @@ module.exports = (app, passport) => {
     authenticatedAdmin,
     adminController.editRestaurant
   )
+  app.put(
+    '/admin/restaurants/:id',
+    authenticatedAdmin,
+    adminController.putRestaurant
+  )
 }
