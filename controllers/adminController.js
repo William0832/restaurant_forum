@@ -126,7 +126,6 @@ const adminController = {
   // getUsers: 顯示使用者清單
   getUsers: (req, res) => {
     return User.findAll({ raw: true }).then((users) => {
-      console.log(users)
       return res.render('admin/users', {
         users: users
       })
