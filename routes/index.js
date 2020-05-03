@@ -61,4 +61,9 @@ module.exports = (app, passport) => {
     authenticatedAdmin,
     adminController.getRestaurant
   )
+  app.get(
+    '/admin/restaurants/:id/edit',
+    authenticatedAdmin,
+    adminController.editRestaurant
+  )
 }
