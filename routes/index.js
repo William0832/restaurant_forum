@@ -45,4 +45,15 @@ module.exports = (app, passport) => {
     userController.signIn
   )
   app.get('/logout', userController.logout)
+  // 新增餐廳
+  app.get(
+    '/admin/restaurants/create',
+    authenticatedAdmin,
+    adminController.createRestaurant
+  )
+  app.post(
+    '/admin/restaurants',
+    authenticatedAdmin,
+    adminController.postRestaurant
+  )
 }
