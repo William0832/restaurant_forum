@@ -1,6 +1,7 @@
-'use strict'
-const bcrypt = require('bcryptjs')
-const faker = require('faker')
+'use strict';
+
+const bcrypt = require('bcryptjs');
+const faker = require('faker');
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
@@ -33,7 +34,7 @@ module.exports = {
         }
       ],
       {}
-    )
+    );
 
     return queryInterface.bulkInsert(
       'Restaurants',
@@ -50,11 +51,11 @@ module.exports = {
         updatedAt: new Date()
       })),
       {}
-    )
+    );
   },
 
   down: (queryInterface, Sequelize) => {
-    queryInterface.bulkDelete('Users', null, {})
-    return queryInterface.bulkDelete('Restaurants', null, {})
+    queryInterface.bulkDelete('Users', null, {});
+    return queryInterface.bulkDelete('Restaurants', null, {});
   }
-}
+};
