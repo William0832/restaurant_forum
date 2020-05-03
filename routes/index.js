@@ -80,4 +80,8 @@ module.exports = (app, passport) => {
     authenticatedAdmin,
     adminController.deleteRestaurant
   )
+  // 顯示 users
+  app.get('/admin/users', authenticatedAdmin, adminController.getUsers)
+  // 修改 user 權限
+  app.put('/admin/users/:id', authenticatedAdmin, adminController.putUsers)
 }

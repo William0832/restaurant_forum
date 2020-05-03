@@ -1,6 +1,7 @@
 const imgur = require('imgur-node-api')
 const IMGUR_CLIENT_ID = '93d57282fdfc93a'
 const db = require('../models')
+const User = db.User
 const Restaurant = db.Restaurant
 const fs = require('fs')
 
@@ -120,6 +121,24 @@ const adminController = {
     return Restaurant.findByPk(req.params.id).then((restaurant) => {
       restaurant.destroy()
       res.redirect('/admin/restaurants')
+    })
+  },
+  // getUsers: 顯示使用者清單
+  getUsers: (req, res) => {
+    return User.findAll({ raw: true }).then((users) => {
+      console.log(users)
+      return res.render('admin/users', {
+        users: users
+      })
+    })
+  },
+  // putUsers: 修改使用者權限
+  putUsers: (req, res) => {
+    return User.findByPk(req.params.id).then((user) => {
+      user.update({ isAdmin: !user.isAdmin }).then((user) => {
+        req.flash('success_messages', 'user was sucessfully to update')
+        res.redirect('/admin/users')
+      })
     })
   }
 }
