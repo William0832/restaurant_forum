@@ -184,12 +184,24 @@ const adminController = {
     } else {
       Category.create({
         name: req.body.name
-      }).then(() => {
+      }).then((category) => {
+        req.flash('success_messages', `category: ${category.name} was successfully created`)
         res.redirect('/admin/categories')
       })
     }
   },
+  getCategory: (req, res) => {},
   putCategory: (req, res) => {},
-  deleteCategories: (req, res) => {}
+  deleteCategory: (req, res) => {
+    return Category.findByPk(req.params.id)
+      .then(category => {
+        req.flash(
+          'success_messages',
+          `category: ${category.name} was successfully deleted`
+        )
+        category.destroy()
+        return res.redirect('back')
+    })
+  }
 }
 module.exports = adminController
