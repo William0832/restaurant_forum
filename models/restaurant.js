@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
     {}
   )
   Restaurant.associate = function (models) {
-    // associations can be defined here
+    Restaurant.belongsTO(models.Category)
   }
   return Restaurant
 }
