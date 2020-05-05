@@ -178,7 +178,22 @@ const adminController = {
       })
     })
   },
-  postCategory: (req, res) => {},
+  postCategory: (req, res) => {
+    if (!req.body.name) {
+      req.flash('error_messages', "name didn't exit")
+      return res.redirect('back')
+    } else {
+      Category.create({
+        name: req.body.name
+      }).then(() => {
+        req.flash(
+          'success_messages',
+          `category:${req.body.name} was successfully to update`
+        )
+        res.redirect('/admin/categories')
+      })
+    }
+  },
   putCategory: (req, res) => {},
   deleteCategories: (req, res) => {}
 }
