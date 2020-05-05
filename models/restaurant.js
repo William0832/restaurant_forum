@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
     {}
   )
   Restaurant.associate = function (models) {
-    Restaurant.belongsTO(models.Category)
+    Restaurant.belongsTo(models.Category)
   }
   return Restaurant
 }
