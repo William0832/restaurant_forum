@@ -7,6 +7,7 @@ const Category = db.Category
 const fs = require('fs')
 
 const adminController = {
+  // Restaurants:
   getRestaurants: (req, res) => {
     return Restaurant.findAll({
       raw: true,
@@ -149,7 +150,7 @@ const adminController = {
       res.redirect('/admin/restaurants')
     })
   },
-  // getUsers: 顯示使用者清單
+  // User:
   getUsers: (req, res) => {
     return User.findAll({ raw: true }).then((users) => {
       return res.render('admin/users', {
@@ -157,7 +158,6 @@ const adminController = {
       })
     })
   },
-  // putUsers: 修改使用者權限
   putUsers: (req, res) => {
     return User.findByPk(req.params.id).then((user) => {
       user.update({ isAdmin: !user.isAdmin }).then((user) => {
@@ -165,6 +165,21 @@ const adminController = {
         res.redirect('/admin/users')
       })
     })
-  }
+  },
+  // Category:
+  getCategories: (req, res) => {
+    return Category.findAll({
+      raw: true,
+      nest: true
+    }).then((categories) => {
+      // console.log(categories)
+      return res.render('admin/categories', {
+        categories: categories
+      })
+    })
+  },
+  postCategory: (req, res) => {},
+  putCategory: (req, res) => {},
+  deleteCategories: (req, res) => {}
 }
 module.exports = adminController

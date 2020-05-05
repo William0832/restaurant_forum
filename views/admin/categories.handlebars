@@ -1,0 +1,48 @@
+<h1>餐廳後台</h1>
+
+<ul class="nav nav-tabs mb-2">
+  <li class="nav-item">
+    <a class="nav-link" href="/admin/restaurants">Restaurants</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/admin/users">Users</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link active" href="/admin/Categories">Categories</a>
+  </li>
+</ul>
+
+<div class="d-flex align-items-center p-3 my-2 text-white-50 bg-purple rounded">
+  <form action="/admin/categories" method="POST">
+    <input type="text" placeholder="name" name="name">
+    <button type="submit">Submit</button>
+  </form>
+</div>
+
+<table class="table">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Category Name</th>
+      <th scope="col">#</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each categories}}
+      <tr>
+        <th scope="row">{{this.id}}</th>
+        <td>{{this.name}}</td>
+        <td>
+          <button type="button" class="btn btn-link">
+            <a href="/admin/categories/{{this.id}}">
+              Edit
+            </a>
+          </button>
+          <form action="/admin/categories/{{this.id}}?_method=DELETE" method="POST" style="display: inline;">
+            <button type="submit" class="btn btn-link">Delete</button>
+          </form>
+        </td>
+      </tr>
+    {{/each}}
+  </tbody>
+</table>

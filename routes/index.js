@@ -84,4 +84,11 @@ module.exports = (app, passport) => {
   app.get('/admin/users', authenticatedAdmin, adminController.getUsers)
   // 修改 user 權限
   app.put('/admin/users/:id', authenticatedAdmin, adminController.putUsers)
+
+  // Category 相關：
+  app.get(
+    '/admin/categories',
+    authenticatedAdmin,
+    adminController.getCategories
+  )
 }
