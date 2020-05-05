@@ -172,7 +172,6 @@ const adminController = {
       raw: true,
       nest: true
     }).then((categories) => {
-      // console.log(categories)
       return res.render('admin/categories', {
         categories: categories
       })
@@ -186,10 +185,6 @@ const adminController = {
       Category.create({
         name: req.body.name
       }).then(() => {
-        req.flash(
-          'success_messages',
-          `category:${req.body.name} was successfully to update`
-        )
         res.redirect('/admin/categories')
       })
     }
