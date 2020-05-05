@@ -28,25 +28,12 @@ module.exports = (app, passport) => {
   app.get('/admin', authenticatedAdmin, (req, res) =>
     res.redirect('/admin/restaurants')
   )
+  // ===== Restaurant 相關 =====
   app.get(
     '/admin/restaurants',
     authenticatedAdmin,
     adminController.getRestaurants
   )
-  // user 註冊
-  app.get('/signup', userController.signUpPage)
-  app.post('/signup', userController.signUp)
-
-  app.get('/signin', userController.signInPage)
-  app.post(
-    '/signin',
-    passport.authenticate('local', {
-      failureRedirect: '/signin',
-      failureFlash: true
-    }),
-    userController.signIn
-  )
-  app.get('/logout', userController.logout)
   // 新增餐廳
   app.get(
     '/admin/restaurants/create',
@@ -80,12 +67,26 @@ module.exports = (app, passport) => {
     authenticatedAdmin,
     adminController.deleteRestaurant
   )
+  //====== User 相關 ======
+  // user 註冊
+  app.get('/signup', userController.signUpPage)
+  app.post('/signup', userController.signUp)
+  app.get('/signin', userController.signInPage)
+  app.post(
+    '/signin',
+    passport.authenticate('local', {
+      failureRedirect: '/signin',
+      failureFlash: true
+    }),
+    userController.signIn
+  )
+  app.get('/logout', userController.logout)
   // 顯示 users
   app.get('/admin/users', authenticatedAdmin, adminController.getUsers)
   // 修改 user 權限
   app.put('/admin/users/:id', authenticatedAdmin, adminController.putUsers)
 
-  // Category 相關：
+  //====== Category 相關 ======
   app.get(
     '/admin/categories',
     authenticatedAdmin,
@@ -96,7 +97,16 @@ module.exports = (app, passport) => {
     authenticatedAdmin,
     adminController.postCategory
   )
-
+  app.get(
+    '/admin/categories/:id',
+    authenticatedAdmin,
+    adminController.getCategory
+  )
+  app.put(
+    '/admin/categories/:id',
+    authenticatedAdmin,
+    adminController.putCategory
+  )
   app.delete(
     '/admin/categories/:id',
     authenticatedAdmin,

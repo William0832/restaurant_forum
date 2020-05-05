@@ -190,8 +190,29 @@ const adminController = {
       })
     }
   },
-  getCategory: (req, res) => {},
-  putCategory: (req, res) => {},
+  getCategory: (req, res) => {
+    Category.findAll({
+      // 轉成一般物件的指令
+      raw:true, 
+      nest: true
+    }).then(categories => {
+      return Category.findByPk(req.params.id).then((category) => {
+      return res.render('admin/categories', {
+        // .findByPk 找到的資料才能用 .toJSON() 轉成一般物件
+        category: category.toJSON(),
+        categories: categories
+      })
+    })      
+    })
+  },
+  putCategory: (req, res) => {
+    return Category.findByPk(req.params.id).then(
+      category => {
+        category.update({name: req.body.name})
+        res.redirect('/admin/categories')
+      }
+    )
+  },
   deleteCategory: (req, res) => {
     return Category.findByPk(req.params.id)
       .then(category => {
