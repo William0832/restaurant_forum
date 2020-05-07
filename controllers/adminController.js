@@ -159,12 +159,12 @@ const adminController = {
     })
   },
   putUsers: (req, res) => {
-    return User.findByPk(req.params.id).then((user) => {
-      user.update({ isAdmin: !user.isAdmin }).then((user) => {
+    return User.findByPk(req.params.id)
+      .then((user) => user.update({ isAdmin: !user.isAdmin }))
+      .then(() => {
         req.flash('success_messages', 'user was sucessfully to update')
         res.redirect('/admin/users')
       })
-    })
   },
   // Category:
   getCategories: (req, res) => {
@@ -185,7 +185,10 @@ const adminController = {
       Category.create({
         name: req.body.name
       }).then((category) => {
-        req.flash('success_messages', `category: ${category.name} was successfully created`)
+        req.flash(
+          'success_messages',
+          `category: ${category.name} was successfully created`
+        )
         res.redirect('/admin/categories')
       })
     }
@@ -193,35 +196,32 @@ const adminController = {
   getCategory: (req, res) => {
     Category.findAll({
       // 轉成一般物件的指令
-      raw:true, 
+      raw: true,
       nest: true
-    }).then(categories => {
+    }).then((categories) => {
       return Category.findByPk(req.params.id).then((category) => {
-      return res.render('admin/categories', {
-        // .findByPk 找到的資料才能用 .toJSON() 轉成一般物件
-        category: category.toJSON(),
-        categories: categories
+        return res.render('admin/categories', {
+          // .findByPk 找到的資料才能用 .toJSON() 轉成一般物件
+          category: category.toJSON(),
+          categories: categories
+        })
       })
-    })      
     })
   },
   putCategory: (req, res) => {
-    return Category.findByPk(req.params.id).then(
-      category => {
-        category.update({name: req.body.name})
-        res.redirect('/admin/categories')
-      }
-    )
+    return Category.findByPk(req.params.id).then((category) => {
+      category.update({ name: req.body.name })
+      res.redirect('/admin/categories')
+    })
   },
   deleteCategory: (req, res) => {
-    return Category.findByPk(req.params.id)
-      .then(category => {
-        req.flash(
-          'success_messages',
-          `category: ${category.name} was successfully deleted`
-        )
-        category.destroy()
-        return res.redirect('back')
+    return Category.findByPk(req.params.id).then((category) => {
+      req.flash(
+        'success_messages',
+        `category: ${category.name} was successfully deleted`
+      )
+      category.destroy()
+      return res.redirect('back')
     })
   }
 }
