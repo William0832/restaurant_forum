@@ -28,7 +28,13 @@ module.exports = (app, passport) => {
   app.get('/restaurants', authenticated, restController.getRestaurants)
   // 前台 show 單一餐廳
   app.get('/restaurants/:id', authenticated, restController.getRestaurant)
+  // ===== comment 相關 =====
   app.post('/comments', authenticated, commentController.postComment)
+  app.delete(
+    '/comments/:id',
+    authenticatedAdmin,
+    commentController.deleteComment
+  )
   // 後臺路由
   app.get('/admin', authenticatedAdmin, (req, res) =>
     res.redirect('/admin/restaurants')
