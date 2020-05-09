@@ -25,11 +25,6 @@ const restController = {
       let totalPage = Array.from({ length: pages }).map(
         (item, index) => index + 1
       )
-      let testArray = [1, 2, 3]
-
-      console.log('===============')
-      console.log(pages)
-
       let prev = page - 1 < 1 ? 1 : page - 1
       let next = page + 1 > pages ? pages : page + 1
       const data = result.rows.map((r) => ({
@@ -48,8 +43,7 @@ const restController = {
           page: page,
           totalPage: totalPage,
           prev: prev,
-          next: next,
-          testArray: testArray
+          next: next
         })
       })
     })
