@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
   )
   Restaurant.associate = function (models) {
     Restaurant.belongsTo(models.Category)
-    Restaurant.hasMany(model.Comment)
+    Restaurant.hasMany(models.Comment)
   }
   return Restaurant
 }
