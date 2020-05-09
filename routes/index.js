@@ -1,24 +1,25 @@
 const restController = require('../controllers/restController.js')
 const adminController = require('../controllers/adminController.js')
 const userController = require('../controllers/userController.js')
+const commentController = require('../controllers/commentController.js')
 const multer = require('multer')
 const upload = multer({ dest: 'temp/' })
 
 module.exports = (app, passport) => {
   // 驗證 middleware: 先拿掉 節省測試時間
   const authenticated = (req, res, next) => {
-    // if (req.isAuthenticated()) {
-    return next()
-    // }
+    if (req.isAuthenticated()) {
+      return next()
+    }
     res.redirect('/signin')
   }
   const authenticatedAdmin = (req, res, next) => {
-    // if (req.isAuthenticated()) {
-    // if (req.user.isAdmin) {
-    return next()
-    // }
-    return res.redirect('/')
-    // }
+    if (req.isAuthenticated()) {
+      if (req.user.isAdmin) {
+        return next()
+      }
+      return res.redirect('/')
+    }
     res.redirect('/signin')
   }
 
@@ -27,7 +28,7 @@ module.exports = (app, passport) => {
   app.get('/restaurants', authenticated, restController.getRestaurants)
   // 前台 show 單一餐廳
   app.get('/restaurants/:id', authenticated, restController.getRestaurant)
-
+  app.post('/comments', authenticated, commentController.postComment)
   // 後臺路由
   app.get('/admin', authenticatedAdmin, (req, res) =>
     res.redirect('/admin/restaurants')
