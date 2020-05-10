@@ -3,6 +3,7 @@ const db = require('../models')
 const User = db.User
 const Comment = db.Comment
 const Restaurant = db.Restaurant
+const Favorite = db.Favorite
 const imgur = require('imgur-node-api')
 const IMGUR_CLIENT_ID = '93d57282fdfc93a'
 
@@ -56,23 +57,23 @@ const userController = {
   },
   getUser: (req, res) => {
     return User.findByPk(req.params.id, {
-      include: [{model: Comment, include: [Restaurant]}]
-    })
-      .then((user) => {
-        const comments = user.toJSON().Comments
-        const numOfComments = comments.length
-        let isRightUser = req.user.id == user.id ? true : false
-        return res.render('user', {
-          user: user.toJSON(),
-          isRightUser: isRightUser,
-          comments: comments,
-          numOfComments: numOfComments
-        })
+      include: [{ model: Comment, include: [Restaurant] }]
+    }).then((user) => {
+      const comments = user.toJSON().Comments
+      const numOfComments = comments.length
+      let isRightUser = req.user.id == user.id ? true : false
+      return res.render('user', {
+        user: user.toJSON(),
+        isRightUser: isRightUser,
+        comments: comments,
+        numOfComments: numOfComments
       })
+    })
   },
   editUser: (req, res) => {
-    return User.findByPk(req.params.id)
-      .then((user) => res.render('editUser', {user: user.toJSON()}))
+    return User.findByPk(req.params.id).then((user) =>
+      res.render('editUser', { user: user.toJSON() })
+    )
   },
   putUser: (req, res) => {
     if (!req.body.name) {
@@ -109,6 +110,27 @@ const userController = {
           })
       })
     }
+  },
+  ddFavorite: (req, res) => {
+    return Favorite.create({
+      UserId: req.user.id,
+      RestaurantId: req.params.restaurantId
+    }).then((restaurant) => {
+      return res.redirect('back')
+    })
+  },
+
+  removeFavorite: (req, res) => {
+    return Favorite.findOne({
+      where: {
+        UserId: req.user.id,
+        RestaurantId: req.params.restaurantId
+      }
+    }).then((favorite) => {
+      favorite.destroy().then((restaurant) => {
+        return res.redirect('back')
+      })
+    })
   }
 }
 
