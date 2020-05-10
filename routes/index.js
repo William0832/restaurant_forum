@@ -35,6 +35,11 @@ module.exports = (app, passport) => {
   app.get('/restaurants/feeds', authenticated, restController.getFeeds)
   // 前台 show 單一餐廳
   app.get('/restaurants/:id', authenticated, restController.getRestaurant)
+  app.get(
+    '/restaurants/:id/dashBoard',
+    authenticated,
+    restController.getDashboard
+  )
   // ===== comment 相關 =====
   app.post('/comments', authenticated, commentController.postComment)
   app.delete(
