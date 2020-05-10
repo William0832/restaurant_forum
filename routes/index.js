@@ -46,6 +46,9 @@ module.exports = (app, passport) => {
     authenticated,
     userController.removeFavorite
   )
+  //  like or unlike
+  app.post('/like/:restaurantId', authenticated, userController.addLike)
+  app.delete('/like/:restaurantId', authenticated, userController.removeLike)
 
   // ===== comment 相關 =====
   app.post('/comments', authenticated, commentController.postComment)
