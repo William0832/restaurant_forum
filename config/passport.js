@@ -45,8 +45,8 @@ passport.deserializeUser((id, cb) => {
     include: [
       { model: db.Restaurant, as: 'FavoritedRestaurants' },
       { model: db.Restaurant, as: 'LikedRestaurants' },
-      { model: db.Users, as: 'Followers' },
-      { model: db.User, as: 'Followings' }
+      { model: User, as: 'Followers' },
+      { model: User, as: 'Followings' }
     ]
   }).then((user) => {
     user = user.toJSON()
