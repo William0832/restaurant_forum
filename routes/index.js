@@ -6,7 +6,6 @@ const multer = require('multer')
 const upload = multer({ dest: 'temp/' })
 
 module.exports = (app, passport) => {
-  // 驗證 middleware: 先拿掉 節省測試時間
   const authenticated = (req, res, next) => {
     if (req.isAuthenticated()) {
       return next()
@@ -21,6 +20,13 @@ module.exports = (app, passport) => {
       return res.redirect('/')
     }
     res.redirect('/signin')
+  }
+  const isRightUser = (req, res, next) => {
+    if (req.user.id == req.params.id) {
+      return next()
+    }
+    req.flash('error_messages', '沒有修改權限')
+    return res.redirect(`/users/${req.params.id}`)
   }
 
   // 前台路由
@@ -96,6 +102,21 @@ module.exports = (app, passport) => {
   app.get('/admin/users', authenticatedAdmin, adminController.getUsers)
   // 修改 user 權限
   app.put('/admin/users/:id', authenticatedAdmin, adminController.putUsers)
+
+  // user profile
+  app.get('/users/:id', authenticated, userController.getUser)
+  app.get(
+    '/users/:id/edit',
+    authenticated,
+    isRightUser,
+    userController.editUser
+  )
+  app.put(
+    '/users/:id',
+    authenticated,
+    upload.single('image'),
+    userController.putUser
+  )
 
   //====== Category 相關 ======
   app.get(
