@@ -161,4 +161,11 @@ module.exports = (app, passport) => {
     authenticatedAdmin,
     adminController.deleteCategory
   )
+
+  app.post('/following/:userId', authenticated, userController.addFollowing)
+  app.delete(
+    '/following/:userId',
+    authenticated,
+    userController.removeFollowing
+  )
 }
