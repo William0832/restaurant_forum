@@ -137,7 +137,7 @@ const userController = {
     return Like.create({
       UserId: req.user.id,
       RestaurantId: req.params.restaurantId
-    }).then(() => res.redirect('back'))  
+    }).then(() => res.redirect('back'))
   },
   removeLike: (req, res) => {
     return Like.findOne({
@@ -152,17 +152,15 @@ const userController = {
   getTopUser: (req, res) => {
     // 撈出所有 User 與 followers 資料
     return User.findAll({
-      include: [
-        { model: User, as: 'Followers' }
-      ]
-    }).then(users => {
+      include: [{ model: User, as: 'Followers' }]
+    }).then((users) => {
       // 整理 users 資料
-      users = users.map(user => ({
+      users = users.map((user) => ({
         ...user.dataValues,
         // 計算追蹤者人數
         FollowerCount: user.Followers.length,
         // 判斷目前登入使用者是否已追蹤該 User 物件
-        isFollowed: req.user.Followings.map(d => d.id).includes(user.id)
+        isFollowed: req.user.Followings.map((d) => d.id).includes(user.id)
       }))
       // 依追蹤者人數排序清單
       users = users.sort((a, b) => b.FollowerCount - a.FollowerCount)
@@ -170,22 +168,21 @@ const userController = {
     })
   },
   addFollowing: (req, res) => {
-  return Followship.create({
-    followerId: req.user.id,
-    followingId: req.params.userId
-  })
-    .then((followship) => res.redirect('back'))
-  },
-
-  removeFollowing: (req, res) => {
-  return Followship.findOne({ 
-    where: {
+    return Followship.create({
       followerId: req.user.id,
       followingId: req.params.userId
-    }})
-    .then((followship) => followship.destroy())
-    .then(() => res.redirect('back'))
-    }
+    }).then((followship) => res.redirect('back'))
+  },
+  removeFollowing: (req, res) => {
+    return Followship.findOne({
+      where: {
+        followerId: req.user.id,
+        followingId: req.params.userId
+      }
+    })
+      .then((followship) => followship.destroy())
+      .then(() => res.redirect('back'))
+  }
 }
 
 module.exports = userController

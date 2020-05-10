@@ -33,8 +33,10 @@ const restController = {
       const data = result.rows.map((r) => ({
         ...r.dataValues,
         description: r.dataValues.description.substring(0, 50),
-        isFavorited: req.user.FavoritedRestaurants.map((d) => d.id).includes(r.id ),
-        isLiked: req.user.LikedRestaurants.map(d => d.id).includes(r.id) 
+        isFavorited: req.user.FavoritedRestaurants.map((d) => d.id).includes(
+          r.id
+        ),
+        isLiked: req.user.LikedRestaurants.map((d) => d.id).includes(r.id)
       }))
 
       Category.findAll({
@@ -56,17 +58,21 @@ const restController = {
   getRestaurant: (req, res) => {
     return Restaurant.findByPk(req.params.id, {
       include: [
-        Category, 
+        Category,
         { model: User, as: 'FavoritedUsers' },
         { model: User, as: 'LikedUsers' },
-        { model: Comment, include: [User] },
+        { model: Comment, include: [User] }
       ]
     })
       .then((restaurant) => restaurant.increment('viewCounts', { by: 1 }))
-      .then((restaurant) => {       
-        const isFavorited = restaurant.FavoritedUsers.map(d => d.id).includes(req.user.id)
-        const isLiked = restaurant.LikedUsers.map(d => d.id).includes(req.user.id)
-        return res.render('restaurant', { 
+      .then((restaurant) => {
+        const isFavorited = restaurant.FavoritedUsers.map((d) => d.id).includes(
+          req.user.id
+        )
+        const isLiked = restaurant.LikedUsers.map((d) => d.id).includes(
+          req.user.id
+        )
+        return res.render('restaurant', {
           restaurant: restaurant.toJSON(),
           isFavorited: isFavorited,
           isLiked: isLiked
@@ -96,13 +102,30 @@ const restController = {
     })
   },
   getDashboard: (req, res) => {
-  return Restaurant.findByPk(req.params.id, {
-      include: [
-        Category, 
-        { model: Comment, imclude: [User] }
-      ]
+    return Restaurant.findByPk(req.params.id, {
+      include: [Category, { model: Comment, imclude: [User] }]
+    }).then((restaurant) =>
+      res.render('dashboard', { restaurant: restaurant.toJSON() })
+    )
+  },
+  getTopRestaurant: (req, res) => {
+    return Restaurant.findAll({
+      include: [{ model: User, as: 'FavoritedUsers' }]
     })
-    .then((restaurant) => res.render('dashboard', { restaurant: restaurant.toJSON() }))
+      .then((restaurants) => {
+        restaurants = restaurants.map((r) => ({
+          ...r.dataValues,
+          description: r.description,
+          FavoritedCount: r.FavoritedUsers.length,
+          isFavorited: req.user.FavoritedRestaurants
+            .map(d => d.id)
+            .includes(r.id)
+        }))
+        restaurants = restaurants
+          .sort((a, b) => b.FavoritedCount - a.FavoritedCount)
+          .slice(0,10)
+        return res.render('topRestaurants', { restaurants: restaurants })
+      })
   }
 }
 

@@ -32,6 +32,7 @@ module.exports = (app, passport) => {
   // 前台路由
   app.get('/', authenticated, (req, res) => res.redirect('/restaurants'))
   app.get('/restaurants', authenticated, restController.getRestaurants)
+  app.get('/restaurants/top', authenticated, restController.getTopRestaurant)
   app.get('/restaurants/feeds', authenticated, restController.getFeeds)
   // 前台 show 單一餐廳
   app.get('/restaurants/:id', authenticated, restController.getRestaurant)
@@ -161,7 +162,7 @@ module.exports = (app, passport) => {
     authenticatedAdmin,
     adminController.deleteCategory
   )
-
+  // user follow
   app.post('/following/:userId', authenticated, userController.addFollowing)
   app.delete(
     '/following/:userId',
