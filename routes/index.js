@@ -119,6 +119,7 @@ module.exports = (app, passport) => {
   // 修改 user 權限
   app.put('/admin/users/:id', authenticatedAdmin, adminController.putUsers)
 
+  app.get('/users/top', authenticated, userController.getTopUser)
   // user profile
   app.get('/users/:id', authenticated, userController.getUser)
   app.get(
