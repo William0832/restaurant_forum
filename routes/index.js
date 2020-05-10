@@ -40,7 +40,7 @@ module.exports = (app, passport) => {
     authenticated,
     restController.getDashboard
   )
-  app.post('/favorite/:restaurantId', authenticated, userController.ddFavorite)
+  app.post('/favorite/:restaurantId', authenticated, userController.addFavorite)
   app.delete(
     '/favorite/:restaurantId',
     authenticated,

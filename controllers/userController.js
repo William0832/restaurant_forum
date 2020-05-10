@@ -112,7 +112,7 @@ const userController = {
       })
     }
   },
-  ddFavorite: (req, res) => {
+  addFavorite: (req, res) => {
     return Favorite.create({
       UserId: req.user.id,
       RestaurantId: req.params.restaurantId
