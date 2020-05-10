@@ -119,7 +119,6 @@ const userController = {
       return res.redirect('back')
     })
   },
-
   removeFavorite: (req, res) => {
     return Favorite.findOne({
       where: {
