@@ -59,16 +59,35 @@ const userController = {
   },
   getUser: (req, res) => {
     return User.findByPk(req.params.id, {
-      include: [{ model: Comment, include: [Restaurant] }]
+      include: [
+        { model: Comment, include: [Restaurant] },
+        { model: Restaurant, as: 'FavoritedRestaurants' },
+        { model: User, as: 'Followers' },
+        { model: User, as: 'Followings' }
+      ]
     }).then((user) => {
-      const comments = user.toJSON().Comments
-      const numOfComments = comments.length
+      let {
+        Comments,
+        FavoritedRestaurants,
+        Followers,
+        Followings
+      } = user.toJSON()
+
+      // 處理重複留言的餐廳資料
+      const tempMap = new Map()
+      Comments.forEach((e) => {
+        tempMap.set(e.Restaurant.id, e)
+      })
+      Comments = [...tempMap.values()]
+
       let isRightUser = req.user.id == user.id ? true : false
       return res.render('user', {
         user: user.toJSON(),
-        isRightUser: isRightUser,
-        comments: comments,
-        numOfComments: numOfComments
+        isRightUser,
+        Comments,
+        FavoritedRestaurants,
+        Followers,
+        Followings
       })
     })
   },
