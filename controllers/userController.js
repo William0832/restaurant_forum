@@ -82,7 +82,7 @@ const userController = {
 
       let isRightUser = req.user.id == user.id ? true : false
       return res.render('user', {
-        user: user.toJSON(),
+        profile: user.toJSON(),
         isRightUser,
         Comments,
         FavoritedRestaurants,
