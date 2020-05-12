@@ -38,4 +38,4 @@ app.listen(port, () => {
   console.log(`Example app listening on port ${port}!`)
 })
 // 引入 routes 並輸入 app 物件 來指定路由
-require('./routes')(app, passport)
+require('./routes')(app)
