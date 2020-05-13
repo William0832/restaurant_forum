@@ -15,9 +15,16 @@ const adminServices = {
       include: [Category]
     }).then((restaurant) => callback({ restaurant: restaurant.toJSON() }))
   },
+  deleteRestaurant: (req, res, callback) => {
+    return Restaurant.findByPk(req.params.id)
+      .then((restaurant) => restaurant.destroy())
+      .then(() => callback({ status: 'success', message: '' }))
+  },
   getCategories: (req, res, callback) => {
     return Category.findAll({ raw: true, nest: true }).then((categories) =>
-      callback({ categories: categories })
+      callback({
+        categories: categories
+      })
     )
   }
 }
