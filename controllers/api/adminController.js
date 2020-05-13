@@ -7,6 +7,16 @@ const adminController = {
     adminServices.getRestaurants(req, res, (data) => {
       return res.json(data)
     })
+  },
+  getRestaurant: (req, res) => {
+    adminServices.getRestaurant(req, res, (data) => {
+      return res.json(data)
+    })
+  },
+  getCategories: (req, res) => {
+    adminServices.getCategories(req, res, (data) => {
+      return res.json(data)
+    })
   }
 }
 module.exports = adminController
