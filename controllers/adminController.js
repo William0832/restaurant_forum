@@ -1,23 +1,17 @@
 const imgur = require('imgur-node-api')
 const IMGUR_CLIENT_ID = '93d57282fdfc93a'
 const db = require('../models')
+const fs = require('fs')
 const User = db.User
 const Restaurant = db.Restaurant
 const Category = db.Category
-const fs = require('fs')
+
+const adminServices = require('../services/adminServices')
 
 const adminController = {
-  // Restaurants:
   getRestaurants: (req, res) => {
-    return Restaurant.findAll({
-      raw: true,
-      nest: true,
-      // 加入關聯資料
-      include: [Category]
-    }).then((restaurants) => {
-      return res.render('admin/restaurants', {
-        restaurants: restaurants
-      })
+    adminServices.getRestaurants(req, res, (data) => {
+      return res.render('admin/restaurants', data)
     })
   },
   createRestaurant: (req, res) => {
