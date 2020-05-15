@@ -76,9 +76,6 @@ const adminServices = {
       return callback({ status: 'error', message: "name didn't exist" })
     }
     const { file } = req
-    console.log('====================')
-    console.log(file)
-    console.log('====================')
     if (file) {
       imgur.setClientID(IMGUR_CLIENT_ID)
       imgur.upload(file.path, (err, img) => {
