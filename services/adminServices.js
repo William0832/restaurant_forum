@@ -120,10 +120,6 @@ const adminServices = {
     }
   },
   postCategory: (req, res, callback) => {
-    // console.log('=========')
-    // console.log(req)
-    // console.log('=========')
-
     if (!req.body.name) {
       return callback({
         status: 'error',
