@@ -135,6 +135,26 @@ const adminServices = {
         })
       )
     }
+  },
+  putCategory: (req, res, callback) => {
+    if (!req.body.name) {
+      return callback({
+        status: 'error',
+        message: "name didn't exit"
+      })
+    }
+    return Category.findByPk(req.params.id)
+      .then((category) =>
+        category.update({
+          name: req.body.name
+        })
+      )
+      .then(() =>
+        callback({
+          status: 'success',
+          message: 'category was successfully to update'
+        })
+      )
   }
 }
 module.exports = adminServices

@@ -20,4 +20,5 @@ router.put(
   adminController.putRestaurant
 )
 router.post('/admin/categories', adminController.postCategory)
+router.put('/admin/categories/:id', adminController.putCategory)
 module.exports = router

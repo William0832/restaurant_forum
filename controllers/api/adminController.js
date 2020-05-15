@@ -33,6 +33,9 @@ const adminController = {
   },
   postCategory: (req, res) => {
     return adminServices.postCategory(req, res, (data) => res.json(data))
+  },
+  putCategory: (req, res) => {
+    return adminServices.putCategory(req, res, (data) => res.json(data))
   }
 }
 module.exports = adminController
