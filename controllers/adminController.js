@@ -91,20 +91,14 @@ const adminController = {
     })
   },
   postCategory: (req, res) => {
-    if (!req.body.name) {
-      req.flash('error_messages', "name didn't exit")
-      return res.redirect('back')
-    } else {
-      Category.create({
-        name: req.body.name
-      }).then((category) => {
-        req.flash(
-          'success_messages',
-          `category: ${category.name} was successfully created`
-        )
-        res.redirect('/admin/categories')
-      })
-    }
+    adminServices.postCategory(req, res, (data) => {
+      if (data.status === 'error') {
+        req.flash('error_messages', data.message)
+        return res.redirect('back')
+      }
+      req.flash('success_messages', data.message)
+      return res.redirect('/admin/Categories')
+    })
   },
   getCategory: (req, res) => {
     Category.findAll({

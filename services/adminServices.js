@@ -118,6 +118,27 @@ const adminServices = {
           })
         )
     }
+  },
+  postCategory: (req, res, callback) => {
+    // console.log('=========')
+    // console.log(req)
+    // console.log('=========')
+
+    if (!req.body.name) {
+      return callback({
+        status: 'error',
+        message: "name didn't exit"
+      })
+    } else {
+      Category.create({
+        name: req.body.name
+      }).then((category) =>
+        callback({
+          status: 'success',
+          message: `category: ${category.name} was successfully created`
+        })
+      )
+    }
   }
 }
 module.exports = adminServices
