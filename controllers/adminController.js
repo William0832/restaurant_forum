@@ -30,9 +30,9 @@ const adminController = {
         req.flash('error_message', data['message'])
         return res.redirect('back')
       }
+      req.flash('success_messages', data.message)
+      res.redirect('/admin/restaurants')
     })
-    req.flash('success_message', data['message'])
-    res.redirect('/admin/restaurants')
   },
   getRestaurant: (req, res) => {
     adminServices.getRestaurant(req, res, (data) => {
