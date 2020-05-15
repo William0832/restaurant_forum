@@ -36,6 +36,9 @@ const adminController = {
   },
   putCategory: (req, res) => {
     return adminServices.putCategory(req, res, (data) => res.json(data))
+  },
+  deleteCategory: (req, res) => {
+    return adminServices.deleteCategory(req, res, (data) => res.json(data))
   }
 }
 module.exports = adminController

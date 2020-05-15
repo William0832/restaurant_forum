@@ -126,13 +126,9 @@ const adminController = {
     })
   },
   deleteCategory: (req, res) => {
-    return Category.findByPk(req.params.id).then((category) => {
-      req.flash(
-        'success_messages',
-        `category: ${category.name} was successfully deleted`
-      )
-      category.destroy()
-      return res.redirect('back')
+    adminServices.deleteCategory(req, res, (data) => {
+      req.flash('success_messages', data.message)
+      return res.redirect('/admin/categories')
     })
   }
 }
